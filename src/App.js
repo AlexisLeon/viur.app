@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import {
   View,
-  Button,
   Modal,
   Text,
-  TouchableHighlight,
-  StyleSheet
+  SafeAreaView,
+  ImageBackground,
+  StyleSheet,
 } from 'react-native';
-import {
-  ViroARSceneNavigator
-} from 'react-viro';
-import CheckInForm from './CheckInForm';
+import { ViroARSceneNavigator } from 'react-viro';
+import CheckInForm from './CheckInForm'
+import Button from './Button';
 
 var sharedProps = {
   apiKey: "28D8905E-C8E3-4F60-8041-8A93D2317145",
-}
+};
 
 var InitialScene = require('./scene');
 
@@ -26,23 +25,14 @@ export default class ViroSample extends Component {
       sharedProps: sharedProps,
       modalVisible: false,
     }
-
-    this.showForm = this.showForm.bind(this)
-    this.closeForm = this.closeForm.bind(this)
   }
 
-  showForm() {
-    this.setState({
-      modalVisible: true,
-    })
-  }
+  onCloseModal = () => {
+    this.setState({ modalVisible: false })
 
-  closeForm() {
-    this.setState({
-      modalVisible: false,
-    })
-  }
-  
+    // Maybe? run animation once
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -50,17 +40,17 @@ export default class ViroSample extends Component {
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={this.closeForm}>
-          <CheckInForm onSuccess={() => this.closeForm()}/>
+        >
+          <CheckInForm closeModal={this.onCloseModal}/>
         </Modal>
-        <ViroARSceneNavigator {...this.state.sharedProps}
-          initialScene={{scene: InitialScene}} />
+        <ViroARSceneNavigator
+          {...this.state.sharedProps}
+          initialScene={{scene: InitialScene}}
+        />
         <View style={styles.buttonWrapper}>
           <Button
-            title="Registro"
-            style={styles.button}
-            color="#FFFFFF"
-            onPress={this.showForm}
+            title="Registra tu visita"
+            onPress={() => this.setState({ modalVisible: true })}
           />
         </View>
       </View>
@@ -69,23 +59,19 @@ export default class ViroSample extends Component {
 }
 
 var styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
   buttonWrapper: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
-    left: 16,
-    backgroundColor: '#5FCEE7',
-    borderRadius: 99,
-    paddingVertical: 8,
+    left: 0,
+    right: 0,
+    bottom: 20,
+    alignItems: 'center'
   },
-  button: {
-    fontSize: 20,
-    color: '#ffffff',
-    textAlign: 'left',
-    fontWeight: 'bold'
+  title: {
+    fontSize: 22,
+    color: "#ffffff",
+    paddingBottom: 20,
+    textAlign: 'center',
+    fontFamily: 'Segoe UI'
   }
 });
 

@@ -23,11 +23,11 @@ import {
   ViroAnimations,
   ViroNode,
   Viro3DObject,
-  ViroQuad
+  ViroQuad,
+  ViroVideo,
 } from 'react-viro';
 
 export class BusinessCard extends Component {
-
   state = {
     isTracking: false,
     initialized: false,
@@ -47,43 +47,49 @@ export class BusinessCard extends Component {
   getARScene() {
     return (
       <ViroNode>
-        <ViroARImageMarker target={"businessCard"}
-          onAnchorFound={
-            () => this.setState({
-                runAnimation: true
-            })}
-        >
-          <ViroNode key="card">
+        <ViroARImageMarker target={"banca"}>
+          <ViroNode key="video0">
             <ViroNode
               position={[0, -0.02, .1]}
               rotation={[-90, 0, 0]}
-              animation={{
-                name:'animateImage',
-                run: this.state.runAnimation
-              }}
             >
-              <ViroText
-                text="Bienvenido a ironbit"
-                style={styles.textStyle}
-                scale={[.1, .1, 0]}
+              <ViroVideo
+                source={require('./res/banca.mp4')}
+                loop={true}
+                // position={[0,2,-5]}
+                scale={[.8, .6, 0]}
               />
             </ViroNode>
-            {/* <ViroNode
-              opacity={0}
-              position={[0, -0.1, .1]}
+          </ViroNode>
+        </ViroARImageMarker>
+        <ViroARImageMarker target={"construccion"}>
+          <ViroNode key="video1">
+            <ViroNode
+              position={[0, -0.02, .1]}
               rotation={[-90, 0, 0]}
-              animation={{
-                name:'animateImage',
-                run: this.state.runAnimation
-              }}
             >
-              <ViroButton
-                source={require("./res/btn.png")}
-                height={.025}
-                width={.15}
-                onTap={this._register}
+              <ViroVideo
+                source={require('./res/construccion.mp4')}
+                loop={true}
+                // position={[0,2,-5]}
+                scale={[.8, .6, 0]}
               />
-            </ViroNode> */}
+            </ViroNode>
+          </ViroNode>
+        </ViroARImageMarker>
+        <ViroARImageMarker target={"wall"}>
+          <ViroNode key="video2">
+            <ViroNode
+              position={[0, -0.02, .1]}
+              rotation={[-90, 0, 0]}
+            >
+              <ViroVideo
+                source={require('./res/business_apps.mp4')}
+                loop={true}
+                // position={[0,2,-5]}
+                scale={[.8, .6, 0]}
+              />
+            </ViroNode>
           </ViroNode>
         </ViroARImageMarker>
       </ViroNode>
@@ -141,8 +147,23 @@ var styles = StyleSheet.create({
 });
 
 ViroARTrackingTargets.createTargets({
-  "businessCard" : {
-    source : require('./res/github.png'),
+  "wall" : {
+    source : require('./res/wall_marker.png'),
+    orientation : "Up",
+    physicalWidth : 0.05 // real world width in meters
+  },
+  "retail" : {
+    source : require('./res/retail.jpg'),
+    orientation : "Up",
+    physicalWidth : 0.05 // real world width in meters
+  },
+  "banca" : {
+    source : require('./res/banca.jpg'),
+    orientation : "Up",
+    physicalWidth : 0.05 // real world width in meters
+  },
+  "construccion" : {
+    source : require('./res/construccion.jpg'),
     orientation : "Up",
     physicalWidth : 0.05 // real world width in meters
   }
@@ -163,7 +184,7 @@ ViroAnimations.registerAnimations({
       positionX: 0.05,
       opacity: 1.0
     },
-      easing:"Bounce",
+      easing: "Bounce",
       duration: 500
   },
   animateViro: {
@@ -171,7 +192,7 @@ ViroAnimations.registerAnimations({
       positionZ: 0.02,
       opacity: 1.0,
     },
-    easing:"Bounce",
+    easing: "Bounce",
     duration: 500
   }
 });
